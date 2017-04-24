@@ -1,14 +1,33 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
+var mongoose = require('mongoose');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var expressSession = require('express-session');
+var config = require('./config');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+mongoose.connect(config.database, function(err){
+	if(err){
+		console.log(err);
+	}else{
+		console.log('Connected to the database!!');
+	}
+});
+
+app.use(expressSession({secret:config.secretKey}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.listen(config.port);
+console.log('listening on port: '+config.port);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,6 +40,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'views/register/assets')));
 
 app.use('/', index);
 app.use('/users', users);
