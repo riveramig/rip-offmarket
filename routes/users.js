@@ -9,19 +9,26 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/signup',function(req,res){
-	var user=new User({
-		name: req.body.name,
-		username: req.body.username,
-		email: req.body.email,
-		password: req.body.password
-	});
-	user.save(function(err){
-		if(err){
-			console.log(err);
+	User.findOne({username: req.body.username, email: req.body.email},function(err,person){
+		if(!person){
+			var user=new User({
+				name: req.body.name,
+				username: req.body.username,
+				email: req.body.email,
+				password: req.body.password
+			});
+			user.save(function(err){
+				if(err){
+					console.log(err);
+				}else{
+					res.json({message: 'User created'+req.body.username});
+				}
+			});
 		}else{
-			console.log('user: '+req.body.username+' has been created');
+			res.json({message: 'Username or email already in use!'});
 		}
 	});
 });
+
 
 module.exports = router;
