@@ -1,8 +1,11 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+   background-image: url("../assets/img/backgrounds/1.jpg");
 }
 
 a {
   color: #00B7FF;
 }
+
+

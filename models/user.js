@@ -20,9 +20,22 @@ UserSchema.pre('save',function(next){
 	});
 });
 
-UserSchema.methods.comparePassword=function(password){
-	var user=this;
-	return bcrypt.compareSync(password,user.password);
+UserSchema.methods.comparePassword=function(password, hash, callback){
+	bcrypt.compare(password, hash, function(err, isMatch){
+		if(err) throw err;
+		callback(null, isMatch);
+	});
 }
+
+module.exports.getUserByUsername = function(userrname, callback){
+	var query = {username: username};
+	User.findOne(query, callback);
+}
+
+module.exports.getUserById = function(userrname, callback){
+	User.findById(id, callback);
+}
+
+
 
 module.exports=mongoose.model('User',UserSchema);

@@ -8,6 +8,12 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var expressSession = require('express-session');
 var config = require('./config');
+var exphbs = require('express-handlebars');
+var expressValidator= require('express-validator');
+var flash= require('connect-flash');
+var LocalStrategy = require('passport-local'),Strategy;
+var mongo= require('mongodb');
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -22,9 +28,8 @@ mongoose.connect(config.database, function(err){
 	}
 });
 
-app.use(expressSession({secret:config.secretKey}));
-app.use(passport.initialize());
-app.use(passport.session());
+
+
 
 app.listen(config.port);
 console.log('listening on port: '+config.port);
@@ -37,13 +42,59 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(expressValidator());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressSession({secret:config.secretKey}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'views/register/assets')));
+app.use(express.static(path.join(__dirname, 'views')));
+
+// Express Session
+app.use(expressSession({
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: true
+}));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Express Validator
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
+
+//Connect Flash
+app.use(flash());
+
+//Global Vars
+app.use(function (req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
+  next();
+});
+
+
 
 app.use('/', index);
 app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

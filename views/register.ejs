@@ -1,62 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html >
 
     <head>
 
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Rip-Off Market ~SignUp~</title>
-
-        <!-- CSS -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,700">
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
-        <link rel="stylesheet" href="assets/css/animate.css">
-        <link rel="stylesheet" href="assets/css/style.css">
-        <link rel="stylesheet" href="assets/css/media-queries.css">
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-        <!-- Favicon and touch icons -->
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-
+    	<% include ../views/partials/head %>
+        
     </head>
 
     <body>
 		
 		<!-- Top menu -->
-		<nav class="navbar navbar-inverse" role="navigation">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="index.html">Regy - Bootstrap Registration Landing Page</a>
-				</div>
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="top-navbar-1">
-					<ul class="nav navbar-nav navbar-right">
-						<li><a class="scroll-link" href="#features">Features</a></li>
-						<li><a class="scroll-link" href="#how-it-works">How it works</a></li>
-						<li><a class="scroll-link" href="#testimonials">Testimonials</a></li>
-						<li><a class="scroll-link" href="#faq">FAQ</a></li>
-					</ul>
-				</div>
-			</div>
-		</nav>
+		<% include ../views/partials/header %>
 				
         <!-- Top content -->
         <div class="top-content">
@@ -80,10 +34,17 @@
 								<h3>Sign up now</h3>
 								<p>Fill in the form below to get instant access:</p>
 							</div>
+							
 							<div class="r-form-1-top-right">
 								<i class="fa fa-pencil"></i>
 							</div>
+
 						</div>
+						<%if (errors) { %>
+									<% errors.forEach(function(err) { %>
+        								<div class="alert alert-danger"><%= err.msg %> </div>
+    								<% }); %>
+							<% } %>
 						<div class="r-form-1-bottom">
 							<form role="form" action="/users/signup" method="post">
 								<div class="form-group">
@@ -101,6 +62,10 @@
 								<div class="form-group">
 									<label class="sr-only" for="r-form-1-about-yourself">About yourself</label>
 									<input type="password" name="password" placeholder="Password..." class="r-form-1-password form-control" id="password">
+								</div>
+								<div class="form-group">
+									<label class="sr-only" for="r-form-1-about-yourself">About yourself</label>
+									<input type="password" name="password2" placeholder="Confirm the Password..." class="r-form-1-password form-control" id="password2">
 								</div>
 								<button type="submit" class="btn">Sign me up!</button>
 							</form>
@@ -191,7 +156,7 @@
 	                		<div class="tab-content">
 	                			<div role="tabpanel" class="tab-pane fade in active" id="tab1">
 	                				<div class="testimonial-image">
-	                					<img src="assets/img/testimonials/1.jpg" alt="" data-at2x="assets/img/testimonials/1.jpg">
+	                					<img src="../assets/img/testimonials/1.jpg" alt="" data-at2x="../assets/img/testimonials/1.jpg">
 	                				</div>
 	                				<div class="testimonial-text">
 		                                <p>
@@ -204,7 +169,7 @@
 	                			</div>
 	                			<div role="tabpanel" class="tab-pane fade" id="tab2">
 	                				<div class="testimonial-image">
-	                					<img src="assets/img/testimonials/2.jpg" alt="" data-at2x="assets/img/testimonials/2.jpg">
+	                					<img src="../assets/img/testimonials/2.jpg" alt="" data-at2x="../assets/img/testimonials/2.jpg">
 	                				</div>
 	                				<div class="testimonial-text">
 		                                <p>
@@ -217,7 +182,7 @@
 	                			</div>
 	                			<div role="tabpanel" class="tab-pane fade" id="tab3">
 	                				<div class="testimonial-image">
-	                					<img src="assets/img/testimonials/3.jpg" alt="" data-at2x="assets/img/testimonials/3.jpg">
+	                					<img src="../assets/img/testimonials/3.jpg" alt="" data-at2x="../assets/img/testimonials/3.jpg">
 	                				</div>
 	                				<div class="testimonial-text">
 		                                <p>
@@ -230,7 +195,7 @@
 	                			</div>
 	                			<div role="tabpanel" class="tab-pane fade" id="tab4">
 	                				<div class="testimonial-image">
-	                					<img src="assets/img/testimonials/4.jpg" alt="" data-at2x="assets/img/testimonials/4.jpg">
+	                					<img src="../assets/img/testimonials/4.jpg" alt="" data-at2x="../assets/img/testimonials/4.jpg">
 	                				</div>
 	                				<div class="testimonial-text">
 		                                <p>
@@ -314,62 +279,11 @@
         
         <!-- Footer -->
         <footer>
-	        <div class="container">
-	        	<div class="row">
-	        		<div class="col-sm-4 footer-about wow fadeInUp">
-	        			<h3>About Us</h3>
-	        			<p>
-	        				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et. 
-	        				Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper.
-	        			</p>
-	        			<p>
-                    		<a class="scroll-link" href="#about-us">Learn More</a>
-                    	</p>
-                    </div>
-	        		<div class="col-sm-4 footer-contact-info wow fadeInDown">
-	        			<h3>Contact Info</h3>
-	                	<p><i class="fa fa-map-marker"></i> Via Rossini 10, 10136 Turin Italy</p>
-	                	<p><i class="fa fa-phone"></i> Phone: (0039) 333 12 68 347</p>
-	                	<p><i class="fa fa-envelope"></i> Email: <a href="mailto:contact.azmind@gmail.com">contact.azmind@gmail.com</a></p>
-	                	<p><i class="fa fa-skype"></i> Skype: regy_online</p>
-                    </div>
-                    <div class="col-sm-4 footer-social wow fadeInUp">
-                    	<h3>We're Social</h3>
-                    	<p>
-	                    	<a href="#"><i class="fa fa-facebook"></i></a> 
-							<a href="#"><i class="fa fa-twitter"></i></a> 
-							<a href="#"><i class="fa fa-google-plus"></i></a> 
-							<a href="#"><i class="fa fa-instagram"></i></a> 
-							<a href="#"><i class="fa fa-pinterest"></i></a>
-						</p>
-                    </div>
-	            </div>
-	            <div class="row">
-           			<div class="col-sm-6 footer-copyright">
-                    	&copy; Regy Bootstrap Registration Template by <a href="http://azmind.com/free-bootstrap-themes-templates/">AZMIND</a>
-                    </div>
-           			<div class="col-sm-6 footer-menu">
-                    	<ul>
-                    		<li><a class="scroll-link" href="#top-content">Top</a></li>
-							<li><a class="scroll-link" href="#features">Features</a></li>
-							<li><a class="scroll-link" href="#how-it-works">How it works</a></li>
-							<li><a href="#">Terms</a></li>
-							<li><a href="#">Privacy</a></li>
-						</ul>
-                    </div>
-           		</div>
-	        </div>
+	        <% include ../views/partials/footer %>
         </footer>
 
 
-        <!-- Javascript -->
-        <script src="assets/js/jquery-1.11.1.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/js/jquery.backstretch.min.js"></script>
-        <script src="assets/js/wow.min.js"></script>
-        <script src="assets/js/retina-1.1.0.min.js"></script>
-        <script src="assets/js/scripts.js"></script>
-        
+       
         <!--[if lt IE 10]>
             <script src="assets/js/placeholder.js"></script>
         <![endif]-->

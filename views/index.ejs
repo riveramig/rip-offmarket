@@ -1,11 +1,21 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+	<!DOCTYPE html>
+	<html>
+	  <head>
+	    <% include ../views/partials/head %>
+	  </head>
+	  <body>
+	  	<% include ../views/partials/header %>
+	            <!-- Top content -->
+	        <div class="top-content">
+	        	<div class="container">
+	        	<%= title %>
+	        </div>
+
+
+
+
+	     <footer>
+		        <% include ../views/partials/footer %>
+	     </footer>
+	  </body>
+	</html>
