@@ -13,7 +13,7 @@
 						<div class="col-sm-6 col-sm-offset-3 r-form-1-box wow fadeInUp">
 							<div class="r-form-1-top">
 								<div class="r-form-1-top-left">
-									<h3><%= title %></h3>
+									<h3>Ingresar</h3>
 									<p>Digite su usurio y contraseña para disfrutar de nuestros descuentos	</p>
 								</div>
 								
@@ -26,20 +26,19 @@
 							<div class="r-form-1-bottom">
 
 	   					    
-	    					<%if (success_msg) { %>
-	        					<div class="alert alert-success"><%= success_msg %> </div>	
-	    					<% }else if (error_msg) { %>
-	        					<div class="alert alert-danger"><%= error_msg %> </div>	
-	    					<%}else if (error) { %>
+	    					<% if (success_msg) { %>
+	        					<div class="alert alert-success"><%= success_msg %> </div>
+           					 <% } %>
+	    					<% if (error) { %>
 	        					<div class="alert alert-danger"><%= error %> </div>	
-	    					<% } %>
+           					<% } %>
 								<form role="form" action="/users/login" method="post">
 									<div class="form-group">
-										<label class="sr-only" for="r-form-1-last-name">Last name</label>
+										<label class="sr-only" for="r-form-1-last-name">User</label>
 										<input type="text" name="username" placeholder="Username..." class="r-form-1-last-name form-control" id="username">
 									</div>
 									<div class="form-group">
-										<label class="sr-only" for="r-form-1-about-yourself">About yourself</label>
+										<label class="sr-only" for="r-form-1-about-yourself">Pass</label>
 										<input type="password" name="password" placeholder="Password..." class="r-form-1-password form-control" id="password">
 									</div>
 									<button type="submit" class="btn">Ingresar!</button>

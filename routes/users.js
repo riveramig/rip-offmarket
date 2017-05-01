@@ -11,12 +11,12 @@
 	});
 
 	router.get('/register', function(req, res, next) {
-	  res.render('register',{errors:false, title:'Registro'});
+	  res.render('register');
 	});
 
 	//Login
 	router.get('/login', function(req,res){
-		res.render('login',{title: "Ingresar", success_msg:false, error_msg:false,error:false});
+		res.render('login');
 	});
 
 	 
@@ -50,6 +50,7 @@
 					console.log(err);
 				}else{
 					console.log('user: '+req.body.username+' has been created');
+					console.log(user);
 				}
 			});
 			req.flash('success_msg', 'Se ha registrado con Exito Ahora Puede Ingresar');
@@ -66,7 +67,7 @@
 				if(!user){
 					return done(null, false, {message: 'Usuario desconocido'});
 				}
-
+				console.log(user.password);
 				User.comparePassword(password, user.password, function(err, isMatch){
 					if(err) throw err;
 					if(isMatch){
@@ -90,8 +91,18 @@
 		});
 	});
 
-	router.post('/login', passport.authenticate('local',{successRedirect:'/',failureRedirect:'/users/login', failureFlash:true}),function(req,res){
+	router.post('/login', 
+		passport.authenticate('local',{successRedirect:'/',failureRedirect:'/users/login', failureFlash:true}),
+		function(req,res){
 		res.redirect('/');
+	});
+
+	router.get('/logout', function(req,res){
+		req.logout();
+
+		req.flash('success_msg','Has salido del sistema');
+
+		res.redirect('/users/login');
 	});
 
 module.exports = router;

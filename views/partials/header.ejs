@@ -7,15 +7,21 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/users/">Regy - Bootstrap Registration Landing Page</a>
+					<a class="navbar-brand" href="/users">Regy - Bootstrap Registration Landing Page</a>
 				</div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="top-navbar-1">
 					<ul class="nav navbar-nav navbar-right">
-						<li><a  href="/users/login">Ingresar</a></li>
-						<li><a  href="/users/register">Registrarse</a></li>
-						<li><a  href="#testimonials">Testimonials</a></li>
-						<li><a  href="#faq">FAQ</a></li>
+						<% if(user){ %>
+							<li><a  href="#testimonials">Testimonials</a></li>
+              				<li><a href="/users/logout">SALIR</a></li>
+            			<% } else{ %>
+							<li><a  href="/users/login">Ingresar</a></li>
+							<li><a  href="/users/register">Registrarse</a></li>
+            			<% } %>
+						
+						
+						
 					</ul>
 				</div>
 			</div>

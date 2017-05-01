@@ -2,11 +2,11 @@ var mongoose=require('mongoose');
 var Schema=mongoose.Schema;
 var bcrypt=require('bcrypt-nodejs');
 
-var UserSchema=new Schema({
+var UserSchema=mongoose.Schema({
 	name:String,
 	username:{type:String,required:true},
 	email:{type:String,required:true},
-	password:{type:String,required:true,select:false}
+	password:{type:String,required:true}
 });
 
 UserSchema.pre('save',function(next){
@@ -20,22 +20,23 @@ UserSchema.pre('save',function(next){
 	});
 });
 
-UserSchema.methods.comparePassword=function(password, hash, callback){
-	bcrypt.compare(password, hash, function(err, isMatch){
+var User= module.exports = mongoose.model('User',UserSchema);
+
+
+module.exports.getUserByUsername = function(username, callback){
+	var query = {username: username};
+	User.findOne(query, callback);
+}
+
+module.exports.getUserById = function(id, callback){
+	User.findById(id, callback);
+}
+
+
+module.exports.comparePassword=function(candidatePassword, hash, callback){
+	bcrypt.compare(candidatePassword, hash, function(err, isMatch){
 		if(err) throw err;
 		callback(null, isMatch);
 	});
 }
 
-module.exports.getUserByUsername = function(userrname, callback){
-	var query = {username: username};
-	User.findOne(query, callback);
-}
-
-module.exports.getUserById = function(userrname, callback){
-	User.findById(id, callback);
-}
-
-
-
-module.exports=mongoose.model('User',UserSchema);
