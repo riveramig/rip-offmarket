@@ -30,5 +30,19 @@ router.post('/signup',function(req,res){
 	});
 });
 
-
+router.post('/login',function(req,res){
+	var username=req.body.username;
+	var password=req.body.password;
+	User.findOne({username:username},function(err,user){
+		if(!user){
+			res.json({message: 'Username invalid'});
+		}else{
+			if(User.comparePassword(password)){
+				res.json({message: 'Do stuff --------------------------------'});
+			}else{
+				res.json({message: 'Password invalid'});
+			}
+		}
+	});
+});
 module.exports = router;
