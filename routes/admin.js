@@ -46,17 +46,20 @@ router.post('/createProduct',upload.single('avatar'), function(req,res){
 		name: req.body.nameProdu,
 		price: req.body.price,
 		available: req.body.available,
-		description: req.body.description,
+		description: req.body.description
 	});
 	produ.image.data=fs.readFileSync('uploads/'+req.file.originalname);
 	produ.image.contentType=req.file.mimetype;
 
-	Category.findOne({name: req.body.categories}, function (err, category){
-		if(err){
-			console.log(err);
-		}
-		console.log(category);
-		produ.categories.push(category);
+	var arrays=req.body.categories;
+	arrays.forEach(function(catego){
+		Category.findOne({name: catego}, function (err, category){
+			if(err){
+				console.log(err);
+			}
+			console.log(category);
+			produ.categories.push(category._id);
+		});
 	});
 
 	produ.save(function(err){
@@ -65,6 +68,40 @@ router.post('/createProduct',upload.single('avatar'), function(req,res){
 		}else{
 			res.json({message: 'Product created !'});
 		}
+	});
+});
+
+router.get('/allProducts',function(req,res){
+	Product.find({},'name categories',function(err,all){
+		if(err){
+			console.log(err);
+		}else{
+			res.json(all);
+		}
+	});
+});
+
+router.get('/allCategories',function(req,res){
+	Category.find({},function(err,all){
+		if(err){
+			console.log(err);
+		}else{
+			res.json(all);
+		}
+	});
+});
+
+router.post('/removeProduct',function(req,res){
+	Product.remove({name:req.body.removePro},function(err){
+		if(err) console.log(err);
+		res.json({message: 'product removed!'});
+	});
+});
+
+router.post('/removeCategory',function(req,res){
+	Category.remove({name:req.body.removeCa},function(err){
+		if(err) console.log(err);
+		res.json({message: 'category removed!'});
 	});
 });
 

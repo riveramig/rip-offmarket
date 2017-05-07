@@ -1,6 +1,6 @@
 var express = require('express');
 var User = require('../models/user');
-var config = require('../config');
+var Purchase = require('../models/purchase');
 var router = express.Router();
 
 /* GET users listing. */
@@ -43,6 +43,32 @@ router.post('/login',function(req,res){
 				res.json({message: 'Password invalid'});
 			}
 		}
+	});
+});
+
+router.post('/purchase',function(req,res){
+	var username=req.body.username;
+	owner=null;
+	User.findOne({username:username},function(user){
+		owner=user._id;
+	});
+	var products = req.body.products;
+	var date =new Date();
+	var price = 0;
+	products.forEach(function(pro){
+		price=price+pro.price;
+	});
+
+	var purchase = new Purchase({
+		date : date,
+		products : products,
+		price : price,
+		owner :  owner
+	});
+
+	purchase.save(function(err){
+		if(err) console.log(err);
+		res.json({message: 'Purchase confirmed'});
 	});
 });
 module.exports = router;

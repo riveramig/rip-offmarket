@@ -1,4 +1,5 @@
 var mongoose=require('mongoose');
+var Purchase = require('./purchase');
 var Schema=mongoose.Schema;
 var bcrypt=require('bcrypt-nodejs');
 
@@ -7,7 +8,7 @@ var UserSchema=new Schema({
 	username:{type:String,required:true},
 	email:{type:String,required:true},
 	password:{type:String,required:true,select:false},
-	purchases:[{type: Schema.ObjectId, ref: 'Product'}]
+	purchases:[{type: Schema.Types.ObjectId, ref: 'Purchase'}]
 });
 
 UserSchema.pre('save',function(next){
