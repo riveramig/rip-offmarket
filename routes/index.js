@@ -1,10 +1,17 @@
-	var express = require('express');
+var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', ensureAuthenticated,function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/',function(req, res, next) {
+  res.render('index', { title: 'Tienda sin autenticar', User:{name: ""}});
 });
+
+router.get('/users', ensureAuthenticated,function(req, res, next) {
+  res.render('index', { title: 'Tienda Autenticada el Usuarios es:', User: req.user });
+});
+
+
+
 
 function ensureAuthenticated(req, res, next){
 	if(req.isAuthenticated()){
