@@ -69,7 +69,7 @@
 
 				var us=(JSON.stringify(user));
 				var use=JSON.parse(us);
-				console.log(use);
+				
 				User.comparePassword(password, use.local.password, function(err, isMatch){
 					if(err) throw err;
 					if(isMatch){
@@ -103,7 +103,7 @@
         process.nextTick(function() {
 
             // find the user in the database based on their facebook id
-            User.findOne({ '_id	': profile.id }, function(err, user) {
+            User.findOne({'facebook.id': profile.id}, function(err, user) {
 
                 // if there is an error, stop everything and return that
                 // ie an error connecting to the database
@@ -116,15 +116,17 @@
                 if (user) {
                     return done(null, user); // user found, return that user
                 } else {
-                    // if there is no user found with that facebook id, create them
+                   
                     var newUser            = new User();
                     console.log(profile);
-                    // set all of the facebook information in our user model
-                    newUser._id    = profile.id; // set the users facebook id                   
-                    //newUser.token = token; // we will save the token that facebook provides to the user                    
-                    newUser.name  = profile.displayName; // look at the passport user profile to see how names are returned
-                    newUser.email = profile.email; // facebook can return multiple emails so we'll take the first
-                    newUser.username= profile.displayName;
+                   	newUser.local.username = profile.id;
+                   	newUser.local.email = profile.id;
+                   	newUser.local.password = profile.id;
+                    newUser.facebook.id    = profile.id;                 
+                    newUser.facebook.token = token; 
+                    newUser.facebook.name  = profile.displayName; 
+                    newUser.facebook.email = profile.id;
+                    
                     var promise = newUser.save();
                     console.log(newUser);
                     // save our user to the database
