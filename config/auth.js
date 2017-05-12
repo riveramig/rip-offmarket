@@ -14,9 +14,9 @@ module.exports = {
     },
 
     'googleAuth' : {
-        'clientID'      : 'your-secret-clientID-here',
-        'clientSecret'  : 'your-client-secret-here',
-        'callbackURL'   : 'http://localhost:3000/auth/google/callback'
+        'clientID'      : '424790351253-031tntl3u256garfdabh6rif628b9t6e.apps.googleusercontent.com',
+        'clientSecret'  : 'L6WIij1OQy4c1zHqB1W20Te8',
+        'callbackURL'   : 'http://127.0.0.1:3000/users/auth/google/callback'
     }
 
 };
