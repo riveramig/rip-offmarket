@@ -6,7 +6,7 @@ var productSchema=new Schema({
 	name: String,
 	price: Number,
 	available: Boolean,
-	categories: [{type:Schema.Types.ObjectId, ref:'Category'}],
+	categories: [{type: String}],
 	description: String,
 	image: {data: Buffer, contentType: String}
 });

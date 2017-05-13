@@ -4,6 +4,9 @@ var Category = require('../models/category');
 var Product = require('../models/product');
 var multer = require('multer');
 var fs = require('fs');
+
+
+
 var storage = multer.diskStorage({
 	destination: function(req,file,cb){
 		cb(null,'uploads/');
@@ -39,28 +42,17 @@ router.post('/createCategory',function(req,res){
 });
 
 router.post('/createProduct',upload.single('avatar'), function(req,res){
-	console.log(req.body);
-	console.log(req.file);
-
+	
 	var produ=new Product({
 		name: req.body.nameProdu,
 		price: req.body.price,
 		available: req.body.available,
-		description: req.body.description
+		description: req.body.description,
+		categories: req.body.categories
 	});
+	
 	produ.image.data=fs.readFileSync('uploads/'+req.file.originalname);
 	produ.image.contentType=req.file.mimetype;
-
-	var arrays=req.body.categories;
-	arrays.forEach(function(catego){
-		Category.findOne({name: catego}, function (err, category){
-			if(err){
-				console.log(err);
-			}
-			console.log(category);
-			produ.categories.push(category._id);
-		});
-	});
 
 	produ.save(function(err){
 		if(err){
@@ -69,6 +61,8 @@ router.post('/createProduct',upload.single('avatar'), function(req,res){
 			res.json({message: 'Product created !'});
 		}
 	});
+
+	
 });
 
 router.get('/allProducts',function(req,res){
