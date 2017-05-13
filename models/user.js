@@ -1,6 +1,7 @@
 var mongoose=require('mongoose');
 var Schema=mongoose.Schema;
 var bcrypt=require('bcrypt-nodejs');
+var Purchase = require('./purchase');
 
 var UserSchema=mongoose.Schema({
 	local:{
@@ -60,4 +61,3 @@ module.exports.comparePassword=function(candidatePassword, hash, callback){
 		callback(null, isMatch);
 	});
 }
-

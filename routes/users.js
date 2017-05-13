@@ -1,89 +1,90 @@
-	var express = require('express');
-	var User = require('../models/user');
-	var config = require('../config');
-	var router = express.Router();
-	var passport = require('passport');
-	var LocalStrategy = require('passport-local').Strategy;
-	var FacebookStrategy = require('passport-facebook').Strategy;
-	var TwitterStrategy  = require('passport-twitter').Strategy;
+    var express = require('express');
+    var User = require('../models/user');
+    var config = require('../config');
+    var router = express.Router();
+    var passport = require('passport');
+    var LocalStrategy = require('passport-local').Strategy;
+    var FacebookStrategy = require('passport-facebook').Strategy;
+    var TwitterStrategy  = require('passport-twitter').Strategy;
     var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-	var configAuth = require('../config/auth');
-	/* GET users listing. */
-	
+    var configAuth = require('../config/auth');
+    var Purchase = require('../models/purchase');
+    /* GET users listing. */
+    
 
-	router.get('/register', function(req, res, next) {
-	  res.render('register',{errors:false});
-	});
+    router.get('/register', function(req, res, next) {
+      res.render('register',{errors:false});
+    });
 
-	//Login
-	router.get('/login', function(req,res){
-		res.render('login');
-	});
+    //Login
+    router.get('/login', function(req,res){
+        res.render('login');
+    });
 
-	 
-	//Create User
-	router.post('/signup',function(req,res){
-		var name = req.body.name;
-		var username = req.body.username;
-		var email = req.body.email;
-		var password = req.body.password;
-		var password2 = req.body.password2;
+     
+    //Create User
+    router.post('/signup',function(req,res){
+        var name = req.body.name;
+        var username = req.body.username;
+        var email = req.body.email;
+        var password = req.body.password;
+        var password2 = req.body.password2;
 
-		//Validation
-		req.checkBody('username', 'El nombre de Usuario es necesario').notEmpty();
-		req.checkBody('email', 'Email de Usuario es necesario').notEmpty();
-		req.checkBody('email', 'El email no es valido').isEmail();
-		req.checkBody('password', 'La contraseña es necesaria').notEmpty();
-		req.checkBody('password2', 'Las contraseñas no coinciden').equals(req.body.password);
+        //Validation
+        req.checkBody('username', 'El nombre de Usuario es necesario').notEmpty();
+        req.checkBody('email', 'Email de Usuario es necesario').notEmpty();
+        req.checkBody('email', 'El email no es valido').isEmail();
+        req.checkBody('password', 'La contraseña es necesaria').notEmpty();
+        req.checkBody('password2', 'Las contraseñas no coinciden').equals(req.body.password);
 
-		var errors= req.validationErrors();
-		if (errors) {
-			res.render('register', {errors: errors});
-		} else{
-			var user=new User();
-				user.local.name=req.body.name;
-				user.local.username= req.body.username;
-				user.local.email= req.body.email;
-				user.local.password= req.body.password;
-			user.save(function(err){
-				if(err){
-					console.log(err);
-				}else{
-					console.log('user: '+req.body.username+' has been created');
-					console.log(user);
-				}
-			});
-			req.flash('success_msg', 'Se ha registrado con Exito Ahora Puede Ingresar');
-			res.redirect("/users/login");
-		}
+        var errors= req.validationErrors();
+        if (errors) {
+            res.render('register', {errors: errors});
+        } else{
+            var user=new User();
+                user.local.name=req.body.name;
+                user.local.username= req.body.username;
+                user.local.email= req.body.email;
+                user.local.password= req.body.password;
+            user.save(function(err){
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log('user: '+req.body.username+' has been created');
+                    console.log(user);
+                }
+            });
+            req.flash('success_msg', 'Se ha registrado con Exito Ahora Puede Ingresar');
+            res.redirect("/users/login");
+        }
 
-		
-	});
+        
+    });
 
-	passport.use(new LocalStrategy(
-		function(username,password,done){
-			User.getUserByUsername(username, function(err, user){
-				
-				if(err) throw err;
-				if(!user){
-					return done(null, false, {message: 'Usuario desconocido'});
-				}
+    passport.use(new LocalStrategy(
+        function(username,password,done){
+            User.getUserByUsername(username, function(err, user){
+                
+                if(err) throw err;
+                if(!user){
+                    return done(null, false, {message: 'Usuario desconocido'});
+                }
 
-				var us=(JSON.stringify(user));
-				var use=JSON.parse(us);
-				
-				User.comparePassword(password, use.local.password, function(err, isMatch){
-					if(err) throw err;
-					if(isMatch){
-						return done(null, user);
-					}else {
-						return done(null, false, {message: 'Contraseña incorrecta'});
-					}
-				});
-			});
+                var us=(JSON.stringify(user));
+                var use=JSON.parse(us);
+                
+                User.comparePassword(password, use.local.password, function(err, isMatch){
+                    if(err) throw err;
+                    if(isMatch){
+                        return done(null, user);
+                    }else {
+                        return done(null, false, {message: 'Contraseña incorrecta'});
+                    }
+                });
+            });
 
-		}
-	));
+        }
+    ));
 
 
     // =========================================================================
@@ -121,9 +122,9 @@
                    
                     var newUser            = new User();
                     console.log(profile);
-                   	newUser.local.username = profile.id;
-                   	newUser.local.email = profile.id;
-                   	newUser.local.password = profile.id;
+                    newUser.local.username = profile.id;
+                    newUser.local.email = profile.id;
+                    newUser.local.password = profile.id;
                     newUser.facebook.id    = profile.id;                 
                     newUser.facebook.token = token; 
                     newUser.facebook.name  = profile.displayName; 
@@ -147,17 +148,17 @@
     }));
 
 
-	// route for facebook authentication and login
+    // route for facebook authentication and login
     router.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
 
      // handle the callback after facebook has authenticated the user
     router.get('/auth/facebook/callback', 
-    	passport.authenticate('facebook', {failureRedirec: '/users/login'}), 
-    	function(request, response){
-  		response.redirect('/users');
-	});
+        passport.authenticate('facebook', {failureRedirec: '/users/login'}), 
+        function(request, response){
+        response.redirect('/users');
+    });
 
- 	// =========================================================================
+    // =========================================================================
     // FACEBOOK ================================================================
     // =========================================================================
 
@@ -174,7 +175,7 @@
 
     },
     function(token, tokenSecret, profile, done) {
-    	console.log("Entrooooooooooooooo");
+        console.log("Entrooooooooooooooo");
         // make the code asynchronous
     // User.findOne won't fire until we have all our data back from Twitter
         process.nextTick(function() {
@@ -194,8 +195,8 @@
                     var newUser                 = new User();
 
                     newUser.local.username = profile.id;
-                   	newUser.local.email = profile.id;
-                   	newUser.local.password = profile.id;
+                    newUser.local.email = profile.id;
+                    newUser.local.password = profile.id;
 
                     // set all of the user data that we need
                     newUser.twitter.id          = profile.id;
@@ -212,20 +213,20 @@
                 }
             });
 
-    	});
+        });
 
-	}));
+    }));
 
-	router.get('/auth/twitter', passport.authenticate('twitter'));
+    router.get('/auth/twitter', passport.authenticate('twitter'));
 
     // handle the callback after twitter has authenticated the user
     router.get('/auth/twitter/callback',
         passport.authenticate('twitter', {failureRedirect : '/users/login'}),
         function(request, response){
-  		response.redirect('/users');
- 	});
+        response.redirect('/users');
+    });
 
-	// =========================================================================
+    // =========================================================================
     // TWITTER =================================================================
     // =========================================================================
 
@@ -295,29 +296,29 @@
 
 
 
-	passport.serializeUser(function(user,done){
-		done(null, user.id);
-	});
+    passport.serializeUser(function(user,done){
+        done(null, user.id);
+    });
 
-	passport.deserializeUser(function(id, done){
-		User.getUserById(id, function(err, user){
-			done(err,user);
-		});
-	});
+    passport.deserializeUser(function(id, done){
+        User.getUserById(id, function(err, user){
+            done(err,user);
+        });
+    });
 
-	router.post('/login', 
-		passport.authenticate('local',{successRedirect:'/users',failureRedirect:'/users/login', failureFlash:true}),
-		function(req,res){
-		res.redirect('/');
-	});
+    router.post('/login', 
+        passport.authenticate('local',{successRedirect:'/users',failureRedirect:'/users/login', failureFlash:true}),
+        function(req,res){
+        res.redirect('/');
+    });
 
-	router.get('/logout', function(req,res){
-		req.logout();
+    router.get('/logout', function(req,res){
+        req.logout();
 
-		req.flash('success_msg','Has salido del sistema');
+        req.flash('success_msg','Has salido del sistema');
 
-		res.redirect('/users/login');
-	});
+        res.redirect('/users/login');
+    });
 
 
 
@@ -329,6 +330,74 @@
 
     // if they aren't redirect them to the home page
     res.redirect('/');
-	}
+    }
+
+
+
+    /////////   ////////////////////////////
+
+    router.post('/signup',function(req,res){
+    User.findOne({username: req.body.username, email: req.body.email},function(err,person){
+        if(!person){
+            var user=new User({
+                name: req.body.name,
+                username: req.body.username,
+                email: req.body.email,
+                password: req.body.password
+            });
+            user.save(function(err){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.json({message: 'User created'+req.body.username});
+                }
+            });
+        }else{
+            res.json({message: 'Username or email already in use!'});
+        }
+    });
+});
+
+router.post('/login',function(req,res){
+    var username=req.body.username;
+    var password=req.body.password;
+    User.findOne({username:username},function(err,user){
+        if(!user){
+            res.json({message: 'Username invalid'});
+        }else{
+            if(User.comparePassword(password)){
+                res.json({message: 'Do stuff --------------------------------'});
+            }else{
+                res.json({message: 'Password invalid'});
+            }
+        }
+    });
+});
+
+router.post('/purchase',function(req,res){
+    var username=req.body.username;
+    owner=null;
+    User.findOne({username:username},function(user){
+        owner=user._id;
+    });
+    var products = req.body.products;
+    var date =new Date();
+    var price = 0;
+    products.forEach(function(pro){
+        price=price+pro.price;
+    });
+
+    var purchase = new Purchase({
+        date : date,
+        products : products,
+        price : price,
+        owner :  owner
+    });
+
+    purchase.save(function(err){
+        if(err) console.log(err);
+        res.json({message: 'Purchase confirmed'});
+    });
+});
 
 module.exports = router;
