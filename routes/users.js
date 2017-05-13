@@ -375,11 +375,8 @@ router.post('/login',function(req,res){
 });
 
 router.post('/purchase',function(req,res){
-    var username=req.body.username;
-    owner=null;
-    User.findOne({username:username},function(user){
-        owner=user._id;
-    });
+    owner=res.user;
+    
     var products = req.body.products;
     var date =new Date();
     var price = 0;

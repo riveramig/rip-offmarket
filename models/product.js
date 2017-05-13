@@ -8,7 +8,7 @@ var productSchema=new Schema({
 	available: Boolean,
 	categories: [{type: String}],
 	description: String,
-	image: {data: Buffer, contentType: String}
+	image: {data: String, contentType: String}
 });
 
 module.exports=mongoose.model('Product',productSchema);

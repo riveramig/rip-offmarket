@@ -19,7 +19,7 @@ var storage = multer.diskStorage({
 var upload = multer({storage:storage});
 
 router.get('/',function(req,res,next){
-	res.json({message: 'Welcome to the admin page'});
+	res.render('admin');
 });
 
 router.post('/createCategory',function(req,res){
@@ -50,15 +50,19 @@ router.post('/createProduct',upload.single('avatar'), function(req,res){
 		description: req.body.description,
 		categories: req.body.categories
 	});
+	var imagex = fs.readFileSync('uploads/'+req.file.originalname);
+	var buffer = new Buffer(imagex).toString('base64');
+	//produ.image.data=fs.readFileSync('uploads/'+req.file.originalname);
 	
-	produ.image.data=fs.readFileSync('uploads/'+req.file.originalname);
+	
+    produ.image.data=buffer;
 	produ.image.contentType=req.file.mimetype;
 
 	produ.save(function(err){
 		if(err){
 			console.log(err)
 		}else{
-			res.json({message: 'Product created !'});
+			res.redirect("/admin");
 		}
 	});
 
@@ -66,7 +70,7 @@ router.post('/createProduct',upload.single('avatar'), function(req,res){
 });
 
 router.get('/allProducts',function(req,res){
-	Product.find({},'name categories',function(err,all){
+	Product.find({},function(err,all){
 		if(err){
 			console.log(err);
 		}else{
@@ -86,16 +90,16 @@ router.get('/allCategories',function(req,res){
 });
 
 router.post('/removeProduct',function(req,res){
-	Product.remove({name:req.body.removePro},function(err){
+	Product.remove({name:req.body.data.removePro},function(err){
 		if(err) console.log(err);
-		res.json({message: 'product removed!'});
+		res.redirect("/admin");
 	});
 });
 
 router.post('/removeCategory',function(req,res){
 	Category.remove({name:req.body.removeCa},function(err){
 		if(err) console.log(err);
-		res.json({message: 'category removed!'});
+		res.redirect("/admin");
 	});
 });
 
