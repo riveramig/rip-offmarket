@@ -6,7 +6,6 @@ var multer = require('multer');
 var fs = require('fs');
 
 
-
 var storage = multer.diskStorage({
 	destination: function(req,file,cb){
 		cb(null,'uploads/');
@@ -19,6 +18,8 @@ var storage = multer.diskStorage({
 var upload = multer({storage:storage});
 
 router.get('/',function(req,res,next){
+	
+      
 	res.render('admin');
 });
 
