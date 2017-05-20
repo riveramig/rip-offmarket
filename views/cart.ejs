@@ -36,10 +36,18 @@
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">				
-							<li><a href="#">My Account</a></li>
+							<% if (User!= undefined ) {%>
+								<li><%= title %>  <%= User %></li>
+							<% } %>				
+							
 							<li><a href="/cart">Your Cart</a></li>
-							<li><a href="/checkout">Checkout</a></li>					
-							<li><a href="/login">Login</a></li>			
+							<% if (User== undefined ) {%>					
+							<li><a href="/login">Login</a></li>	
+							<% } %>	
+							<% if (User) { %>
+								<li><a href="/users/logout">Salir</a></li>
+							<% } %>				
+										
 						</ul>
 					</div>
 				</div>

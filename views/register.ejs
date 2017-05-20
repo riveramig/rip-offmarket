@@ -36,9 +36,8 @@
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">				
-							<li><a href="#">My Account</a></li>
+							
 							<li><a href="/cart">Your Cart</a></li>
-							<li><a href="/checkout">Checkout</a></li>					
 							<li><a href="/login">Login</a></li>		
 						</ul>
 					</div>
@@ -48,7 +47,7 @@
 		<div id="wrapper" class="container">
 			<section class="navbar main-menu">
 				<div class="navbar-inner main-menu">				
-					<a href="/index" class="logo pull-left"><img src="themes/images//logo.png" class="site_logo" alt=""></a>
+					<a href="/" class="logo pull-left"><img src="themes/images//logo.png" class="site_logo" alt=""></a>
 					<nav id="menu" class="pull-right">
 						<ul>
 							<li><a href="./products">Woman</a>					
@@ -86,19 +85,25 @@
         								<div class="alert alert-danger"><%= err.msg %> </div>
     								<% }); %>
 						<% } %>
-						<form action="#" method="post">
+						<%if (success_msg) { %>
+	        					<div class="alert alert-success"><%= success_msg %> </div>
+           					 <% } %>
+	    				<% if (error) { %>
+	        					<div class="alert alert-danger"><%= error %> </div>	
+           				<% } %>
+						<form role="form" action="/users/login" method="post">
 							<input type="hidden" name="next" value="/">
 							<fieldset>
 								<div class="control-group">
 									<label class="control-label">Username</label>
 									<div class="controls">
-										<input type="text" placeholder="Enter your username" id="username" class="input-xlarge">
+										<input type="text" placeholder="Enter your username" id="username" name="username" class="input-xlarge">
 									</div>
 								</div>
 								<div class="control-group">
 									<label class="control-label">Password</label>
-									<div class="controls">
-										<input type="password" placeholder="Enter your password" id="password" class="input-xlarge">
+									<div class="controls"> 
+										<input type="password" placeholder="Enter your password" id="password" name="password" class="input-xlarge">
 									</div>
 								</div>
 								<div class="control-group">
@@ -114,12 +119,7 @@
 					<div class="span7">					
 						<h4 class="title"><span class="text"><strong>Register</strong> Form</span></h4>
 						
-						<% if (success_msg) { %>
-	        					<div class="alert alert-success"><%= success_msg %> </div>
-           					 <% } %>
-	    					<% if (error) { %>
-	        					<div class="alert alert-danger"><%= error %> </div>	
-           					<% } %>
+						
 						<form action="/users/signup" method="post" class="form-stacked">
 							<fieldset>
 								<div class="control-group">
