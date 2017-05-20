@@ -44,7 +44,7 @@ router.get('/login',function(req,res){
 });
 
 router.get('/checkout',function(req,res){
-	res.render('checkout');
+	res.render('checkout', { title: 'Tienda sin autenticar', User: undefined });
 });
 
 function ensureAuthenticated(req, res, next){

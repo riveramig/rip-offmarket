@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="Index">
 	<head>
 		<meta charset="utf-8">
 		<title>Bootstrap E-commerce Templates</title>
@@ -14,8 +14,11 @@
 		<!-- global styles -->
 		<link href="themes/css/flexslider.css" rel="stylesheet"/>
 		<link href="themes/css/main.css" rel="stylesheet"/>
+		<link href="bootstrap/css/style2.css" rel="stylesheet">
 
 		<!-- scripts -->
+		<script src="../angular.min.js"></script>
+		<script src="../index/indexController.js"></script>
 		<script src="themes/js/jquery-1.7.2.min.js"></script>
 		<script src="bootstrap/js/bootstrap.min.js"></script>				
 		<script src="themes/js/superfish.js"></script>	
@@ -25,7 +28,7 @@
 			<script src="js/respond.min.js"></script>
 		<![endif]-->
 	</head>
-    <body>		
+    <body ng-controller="mainCtrl as main">		
 		<div id="top-bar" class="container">
 			<div class="row">
 				<div class="span4">
@@ -35,11 +38,19 @@
 				</div>
 				<div class="span8">
 					<div class="account pull-right">
-						<ul class="user-menu">				
-							<li><a href="#">My Account</a></li>
+						<ul class="user-menu">
+							<li><a href="/checkout">Store</a>
+							<% if (User!= undefined ) {%>
+								<li><%= title %>  <%= User %></li>
+							<% } %>				
+							
 							<li><a href="/cart">Your Cart</a></li>
-							<li><a href="/checkout">Checkout</a></li>					
-							<li><a href="/login">Login</a></li>			
+							<% if (User== undefined ) {%>					
+							<li><a href="/login">Login</a></li>	
+							<% } %>	
+							<% if (User) { %>
+							<li><a href="/users/logout">Salir</a></li>
+							<% } %>		
 						</ul>
 					</div>
 				</div>
@@ -50,215 +61,34 @@
 				<div class="navbar-inner main-menu">				
 					<a href="/" class="logo pull-left"><img src="themes/images/logo.png" class="site_logo" alt=""></a>
 					<nav id="menu" class="pull-right">
-						<ul>
-							<li><a href="./products.html">Woman</a>					
-								<ul>
-									<li><a href="./products.html">Lacinia nibh</a></li>									
-									<li><a href="./products.html">Eget molestie</a></li>
-									<li><a href="./products.html">Varius purus</a></li>									
-								</ul>
-							</li>															
-							<li><a href="./products.html">Man</a></li>			
-							<li><a href="./products.html">Sport</a>
-								<ul>									
-									<li><a href="./products.html">Gifts and Tech</a></li>
-									<li><a href="./products.html">Ties and Hats</a></li>
-									<li><a href="./products.html">Cold Weather</a></li>
-								</ul>
-							</li>							
-							<li><a href="./products.html">Hangbag</a></li>
-							<li><a href="./products.html">Best Seller</a></li>
-							<li><a href="./products.html">Top Seller</a></li>
-						</ul>
 					</nav>
 				</div>
 			</section>				
 			<section class="header_text sub">
-			<img class="pageBanner" src="themes/images/pageBanner.png" alt="New products" >
-				<h4><span>Check Out</span></h4>
+				<img class="pageBanner" src="themes/images/pageBanner.png" alt="New products" >
+				<h4><span>Store</span></h4>
 			</section>	
 			<section class="main-content">
-				<div class="row">
-					<div class="span12">
-						<div class="accordion" id="accordion2">
-							<div class="accordion-group">
-								<div class="accordion-heading">
-									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">Checkout Options</a>
-								</div>
-								<div id="collapseOne" class="accordion-body in collapse">
-									<div class="accordion-inner">
-										<div class="row-fluid">
-											<div class="span6">
-												<h4>New Customer</h4>
-												<p>By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made.</p>
-												<form action="#" method="post">
-													<fieldset>
-														<label class="radio" for="register">
-															<input type="radio" name="account" value="register" id="register" checked="checked">Register Account
-														</label>
-														<label class="radio" for="guest">
-															<input type="radio" name="account" value="guest" id="guest">Guest Checkout
-														</label>
-														<br>
-														<button class="btn btn-inverse" data-toggle="collapse" data-parent="#collapse2">Continue</button>
-													</fieldset>
-												</form>
-											 </div>
-											 <div class="span6">
-												<h4>Returning Customer</h4>
-												<p>I am a returning customer</p>
-												<form action="#" method="post">
-													<fieldset>
-														<div class="control-group">
-															<label class="control-label">Username</label>
-															<div class="controls">
-																<input type="text" placeholder="Enter your username" id="username" class="input-xlarge">
-															</div>
-														</div>
-														<div class="control-group">
-															<label class="control-label">Password</label>
-															<div class="controls">
-															<input type="password" placeholder="Enter your password" id="password" class="input-xlarge">
-															</div>
-														</div>
-														<button class="btn btn-inverse">Continue</button>
-													</fieldset>
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="accordion-group">
-								<div class="accordion-heading">
-									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">Account &amp; Billing Details</a>
-								</div>
-								<div id="collapseTwo" class="accordion-body collapse">
-									<div class="accordion-inner">
-										<div class="row-fluid">
-											<div class="span6">
-												<h4>Your Personal Details</h4>
-												<div class="control-group">
-													<label class="control-label">First Name</label>
-													<div class="controls">
-														<input type="text" placeholder="" class="input-xlarge">
-													</div>
-												</div>
-												<div class="control-group">
-													<label class="control-label">Last Name</label>
-													<div class="controls">
-														<input type="text" placeholder="" class="input-xlarge">
-													</div>
-												</div>					  
-												<div class="control-group">
-													<label class="control-label">Email Address</label>
-													<div class="controls">
-														<input type="text" placeholder="" class="input-xlarge">
-													</div>
-												</div>
-												<div class="control-group">
-													<label class="control-label">Telephone</label>
-													<div class="controls">
-														<input type="text" placeholder="" class="input-xlarge">
-													</div>
-												</div>
-												<div class="control-group">
-													<label class="control-label">Fax</label>
-													<div class="controls">
-														<input type="text" placeholder="" class="input-xlarge">
-													</div>
-												</div>
-											</div>
-											<div class="span6">
-												<h4>Your Address</h4>
-												<div class="control-group">
-													<label class="control-label">Company</label>
-													<div class="controls">
-														<input type="text" placeholder="" class="input-xlarge">
-													</div>
-												</div>
-												<div class="control-group">
-													<label class="control-label">Company ID:</label>
-													<div class="controls">
-														<input type="text" placeholder="" class="input-xlarge">
-													</div>
-												</div>					  
-												<div class="control-group">
-													<label class="control-label"><span class="required">*</span> Address 1:</label>
-													<div class="controls">
-														<input type="text" placeholder="" class="input-xlarge">
-													</div>
-												</div>
-												<div class="control-group">
-													<label class="control-label">Address 2:</label>
-													<div class="controls">
-														<input type="text" placeholder="" class="input-xlarge">
-													</div>
-												</div>
-												<div class="control-group">
-													<label class="control-label"><span class="required">*</span> City:</label>
-													<div class="controls">
-														<input type="text" placeholder="" class="input-xlarge">
-													</div>
-												</div>
-												<div class="control-group">
-													<label class="control-label"><span class="required">*</span> Post Code:</label>
-													<div class="controls">
-														<input type="text" placeholder="" class="input-xlarge">
-													</div>
-												</div>
-												<div class="control-group">
-													<label class="control-label"><span class="required">*</span> Country:</label>
-													<div class="controls">
-														<select class="input-xlarge">
-															<option value="1">Afghanistan</option>
-															<option value="2">Albania</option>
-															<option value="3">Algeria</option>
-															<option value="4">American Samoa</option>
-															<option value="5">Andorra</option>
-															<option value="6">Angola</option>
-														</select>
-													</div>
-												</div>
-												<div class="control-group">
-													<label class="control-label"><span class="required">*</span> Region / State:</label>
-													<div class="controls">
-														<select name="zone_id" class="input-xlarge">
-															<option value=""> --- Please Select --- </option>
-															<option value="3513">Aberdeen</option>
-															<option value="3514">Aberdeenshire</option>
-															<option value="3515">Anglesey</option>
-															<option value="3516">Angus</option>
-															<option value="3517">Argyll and Bute</option>
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="accordion-group">
-								<div class="accordion-heading">
-									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">Confirm Order</a>
-								</div>
-								<div id="collapseThree" class="accordion-body collapse">
-									<div class="accordion-inner">
-										<div class="row-fluid">
-											<div class="control-group">
-												<label for="textarea" class="control-label">Comments</label>
-												<div class="controls">
-													<textarea rows="3" id="textarea" class="span12"></textarea>
-												</div>
-											</div>									
-											<button class="btn btn-inverse pull-right">Confirm order</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>				
-					</div>
+				<div class="grillita">
+					<div class="card" ng-repeat="producto in main.productos">
+                    <img class="card-img-top" src="data:{{producto.image.contentType}};base64,{{producto.image.data}}">
+                    <div class="card-block">
+                        <h4 class="card-title mt-3">{{producto.name}}</h4>
+                        <div class="meta">
+                            <a>{{producto.categories.toString()}}</a>
+                        </div>
+                        <div class="card-text">
+                            {{producto.description}}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <small>{{producto.available}}</small>
+                        <button class="btn btn-secondary float-right btn-sm">Add to Cart</button>
+                    </div>
+                </div>
+
 				</div>
+				
 			</section>			
 			<section id="footer-bar">
 				<div class="row">
