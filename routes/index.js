@@ -11,8 +11,17 @@ router.get('/users', ensureAuthenticated,function(req, res, next) {
   res.render('index', { title: 'Tienda Autenticada el Usuarios es:', User: req.user });
 });
 
+router.get('/cart',function(req,res){
+  res.render('cart');
+});
 
+router.get('/login',function(req,res){
+	res.render('register', {errors:false, success_msg:false});
+});
 
+router.get('/checkout',function(req,res){
+	res.render('checkout');
+});
 
 function ensureAuthenticated(req, res, next){
 	if(req.isAuthenticated()){

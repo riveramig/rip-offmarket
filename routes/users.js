@@ -55,7 +55,7 @@
                 }
             });
             req.flash('success_msg', 'Se ha registrado con Exito Ahora Puede Ingresar');
-            res.redirect("/users/login");
+            res.redirect("/login");
         }
 
         
