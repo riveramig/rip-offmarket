@@ -33,7 +33,7 @@ router.post('/createCategory',function(req,res){
 				if(err){
 					console.log(err);
 				}else{
-					res.json({message :'Category '+req.body.nameCate+ ' has been created'});
+					res.redirect("/admin");
 				}
 			});
 		}else{
@@ -98,7 +98,8 @@ router.post('/removeProduct',function(req,res){
 });
 
 router.post('/removeCategory',function(req,res){
-	Category.remove({name:req.body.removeCa},function(err){
+	console.log(req.body);
+	Category.remove({name:req.body.data.removeCa},function(err){
 		if(err) console.log(err);
 		res.redirect("/admin");
 	});

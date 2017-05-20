@@ -33,6 +33,15 @@ angular.module('Admin',[])
 				console.log("El dato "+data+" Se elimino");
 			});
 		}
+		self.deleteCategory=function(category){
+			console.log(category.name);
+			var req={
+				data:{removeCa: category.name}
+			};
+			$http.post("/admin/removeCategory",req).then(function(data,status){
+				console.log("El dato "+data+" Se elimino");
+			});
+		}
 	}])
 	.factory('productService',['$http',function($http){
 		var data=new Array();
@@ -55,7 +64,6 @@ angular.module('Admin',[])
 		$http.get('/admin/allCategories').then(function(res){
 			for (var i = 0; i < res.data.length; i++) {
 				data.push(res.data[i]);
-				console.log(res.data[i]);
 			}
 		});
 		return{
