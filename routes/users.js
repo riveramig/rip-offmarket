@@ -18,7 +18,7 @@
 
     //Login
     router.get('/login', function(req,res){
-        res.render('login');
+        res.render('register',{errors:false, success_msg:false});
     });
 
      
@@ -153,7 +153,7 @@
 
      // handle the callback after facebook has authenticated the user
     router.get('/auth/facebook/callback', 
-        passport.authenticate('facebook', {failureRedirec: '/users/login'}), 
+        passport.authenticate('facebook', {failureRedirec: '/login'}), 
         function(request, response){
         response.redirect('/users');
     });
@@ -221,7 +221,7 @@
 
     // handle the callback after twitter has authenticated the user
     router.get('/auth/twitter/callback',
-        passport.authenticate('twitter', {failureRedirect : '/users/login'}),
+        passport.authenticate('twitter', {failureRedirect : '/login'}),
         function(request, response){
         response.redirect('/users');
     });
@@ -286,7 +286,7 @@
 
     // handle the callback after twitter has authenticated the user
     router.get('/auth/google/callback',
-        passport.authenticate('google', {failureRedirect : '/users/login'}),
+        passport.authenticate('google', {failureRedirect : '/login'}),
         function(request, response){
         response.redirect('/users');
     });
@@ -307,7 +307,7 @@
     });
 
     router.post('/login', 
-        passport.authenticate('local',{successRedirect:'/users',failureRedirect:'/users/login', failureFlash:true}),
+        passport.authenticate('local',{successRedirect:'/users',failureRedirect:'/login', failureFlash:true}),
         function(req,res){
         res.redirect('/');
     });
@@ -317,7 +317,7 @@
 
         req.flash('success_msg','Has salido del sistema');
 
-        res.redirect('/users/login');
+        res.redirect('/login');
     });
 
 

@@ -35,15 +35,23 @@
 				<div class="span4">
 					<form method="POST" class="search_form">
 						<input type="text" class="input-block-level search-query" Placeholder="eg. T-sirt">
+
 					</form>
 				</div>
 				<div class="span8">
 					<div class="account pull-right">
-						<ul class="user-menu">				
-							<li><a href="#">My Account</a></li>
+						<ul class="user-menu">
+							<% if (User!= undefined ) {%>
+								<li><%= title %>  <%= User %></li>
+							<% } %>				
+							
 							<li><a href="/cart">Your Cart</a></li>
-							<li><a href="/checkout">Checkout</a></li>					
-							<li><a href="/login">Login</a></li>		
+							<% if (User== undefined ) {%>					
+							<li><a href="/login">Login</a></li>	
+							<% } %>	
+							<% if (User) { %>
+								<li><a href="/users/logout">Salir</a></li>
+							<% } %>		
 						</ul>
 					</div>
 				</div>
@@ -107,7 +115,11 @@
 												<li class="span3" ng-repeat="producto in main.productos | limitTo:4:5">
 													<div class="product-box">
 														<span class="sale_tag"></span>
+<<<<<<< HEAD
 														<p><a href="product_detail.html"><img src="data:{{producto.image.contentType}};base64,{{producto.image.data}}" /></a></p>
+=======
+														<p><a href="product_detail.html"><img src="data:{{producto.image.contentType}};base64,{{producto.image.data}}" alt="" /></a></p>
+>>>>>>> origin/testLogin
 														<a href="./product_detail" class="title">{{producto.name}}</a><br/>
 														<a href="./products" class="category">{{producto.categories.toString()}}</a>
 														<p class="price"><span ng-bind="producto.price | currency"></span></p>
