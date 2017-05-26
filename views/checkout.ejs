@@ -52,7 +52,8 @@
 							<li><a href="/login">Login</a></li>	
 							<% } %>	
 							<% if (User) { %>
-							<li><a href="/users/logout">Salir</a></li>
+							<li><a data-toggle="modal" href="#myModal">Chat</a></li>
+								<li><a href="/users/logout">Salir</a></li>
 							<% } %>		
 						</ul>
 					</div>
@@ -62,7 +63,12 @@
 		<div id="wrapper" class="container">
 			<section class="navbar main-menu">
 				<div class="navbar-inner main-menu">				
-					<a href="/" class="logo pull-left"><img src="themes/images/logo.png" class="site_logo" alt=""></a>
+					<% if (User) { %>
+						<a href="/users" class="logo pull-left"><img src="../themes/images/logo.png" class="site_logo" alt=""></a>
+					<% } %>
+					<% if (User== undefined ) {%>
+						<a href="/" class="logo pull-left"><img src="../themes/images/logo.png" class="site_logo" alt=""></a>
+					<% } %>
 					<nav id="menu" class="pull-right">
 					</nav>
 				</div>
@@ -98,7 +104,8 @@
 									</div>							
 								</div>
 						
-			</div>			
+			</div>	
+			<% include chat.ejs %>		
 			<section id="footer-bar">
 				<div class="row">
 					<div class="span3">
