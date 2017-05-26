@@ -17,8 +17,9 @@
 		<link href="../themes/css/main.css" rel="stylesheet"/>
 
 		<script src="../angular.min.js"></script>
-		<script src="../index/angular-cookies.js"></script>
+		<script src="../index/factory.js"></script>
 		<script src="../index/indexController.js"></script>
+		<script src="../index/localStorage.js"></script>
 
 		<script src="../themes/js/jquery-1.7.2.min.js"></script>
 		<script src="../bootstrap/js/bootstrap.min.js"></script>				
@@ -42,7 +43,6 @@
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">
-							
 							<% if (User!= undefined ) {%>
 								<li><%= title %>  <%= User %></li>
 							<% } %>				
@@ -52,8 +52,12 @@
 							<li><a href="/login">Login</a></li>	
 							<% } %>	
 							<% if (User) { %>
+
 								<li><a data-toggle="modal" href="#myModal">Chat</a></li>
-								<li><a href="/users/logout">Salir</a></li>
+								
+
+								<li><a href="/users/logout" ng-click="main.logOut()">Salir</a></li>
+
 							<% } %>		
 						</ul>
 					</div>

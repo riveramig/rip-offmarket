@@ -19,7 +19,8 @@
 		<!-- scripts -->
 		<script src="../angular.min.js"></script>
 		<script src="../index/indexController.js"></script>
-		<script src="../index/angular-cookies.js"></script>
+		<script src="../index/Factory.js"></script>
+		<script src="../index/localStorage.js"></script>
 		
 		<script src="themes/js/jquery-1.7.2.min.js"></script>
 		<script src="bootstrap/js/bootstrap.min.js"></script>				
@@ -52,8 +53,12 @@
 							<li><a href="/login">Login</a></li>	
 							<% } %>	
 							<% if (User) { %>
+
 							<li><a data-toggle="modal" href="#myModal">Chat</a></li>
-								<li><a href="/users/logout">Salir</a></li>
+							
+
+							<li><a href="/users/logout" ng-click="main.logOut()">Salir</a></li>
+
 							<% } %>		
 						</ul>
 					</div>
