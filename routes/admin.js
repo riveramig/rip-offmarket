@@ -5,6 +5,9 @@ var Product = require('../models/product');
 var multer = require('multer');
 var fs = require('fs');
 
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var User = require('../models/user');
 
 var storage = multer.diskStorage({
 	destination: function(req,file,cb){
@@ -21,6 +24,12 @@ router.get('/',function(req,res,next){
 	
       
 	res.render('admin');
+});
+
+router.get('/dashboard',function(req,res,next){
+	
+      
+	res.render('dashboard');
 });
 
 router.post('/createCategory',function(req,res){
@@ -104,5 +113,74 @@ router.post('/removeCategory',function(req,res){
 		res.redirect("/admin");
 	});
 });
+
+
+////////////////////////////////// LOGIN ADMINSTRADOR ////////////////////////////////////
+passport.use(new LocalStrategy(
+        function(username,password,done){
+            User.getUserByUsername(username, function(err, user){
+                
+                if(err) throw err;
+                if(!user){
+                    return done(null, false, {message: 'Usuario desconocido'});
+                }
+
+                var us=(JSON.stringify(user));
+                var use=JSON.parse(us);
+                
+                User.comparePassword(password, use.local.password, function(err, isMatch){
+                    if(err) throw err;
+                    if(isMatch){
+                        return done(null, user);
+                    }else {
+                        return done(null, false, {message: 'Contraseña incorrecta'});
+                    }
+                });
+            });
+
+        }
+));
+
+passport.serializeUser(function(user,done){
+        done(null, user.id);
+    });
+
+    passport.deserializeUser(function(id, done){
+        User.getUserById(id, function(err, user){
+            done(err,user);
+        });
+    });
+
+    router.post('/dashboard', 
+        passport.authenticate('local',{successRedirect:'/admin',failureRedirect:'/dashboard', failureFlash:true}),
+        function(req,res){
+        res.redirect('/');
+    });
+
+    router.get('/logout', function(req,res){
+        req.logout();
+
+        req.flash('success_msg','Has salido del sistema');
+
+        res.redirect('/admin/dashboard');
+    });
+
+
+
+    function isLoggedIn(req, res, next) {
+
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated())
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.redirect('/');
+    }
+
+
+
+
+
+
 
 module.exports=router;

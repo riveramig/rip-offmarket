@@ -2,7 +2,7 @@
 <html lang="en" ng-app="Index">
 	<head>
 		<meta charset="utf-8">
-		<title>Bootstrap E-commerce Templates</title>
+		<title>E-commerce Watch</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="">
 		<!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
@@ -14,15 +14,18 @@
 		<!-- global styles -->
 		<link href="themes/css/flexslider.css" rel="stylesheet"/>
 		<link href="themes/css/main.css" rel="stylesheet"/>
-		<link href="bootstrap/css/style2.css" rel="stylesheet">
+		
 
 		<!-- scripts -->
 		<script src="../angular.min.js"></script>
 		<script src="../index/indexController.js"></script>
+		<script src="../index/angular-cookies.js"></script>
+		
 		<script src="themes/js/jquery-1.7.2.min.js"></script>
 		<script src="bootstrap/js/bootstrap.min.js"></script>				
 		<script src="themes/js/superfish.js"></script>	
 		<script src="themes/js/jquery.scrolltotop.js"></script>
+		
 		<!--[if lt IE 9]>			
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 			<script src="js/respond.min.js"></script>
@@ -33,7 +36,7 @@
 			<div class="row">
 				<div class="span4">
 					<form method="POST" class="search_form">
-						<input type="text" class="input-block-level search-query" Placeholder="eg. T-sirt">
+						<input type="text" class="input-block-level search-query" Placeholder="eg. T-watch">
 					</form>
 				</div>
 				<div class="span8">
@@ -68,28 +71,34 @@
 				<img class="pageBanner" src="themes/images/pageBanner.png" alt="New products" >
 				<h4><span>Store</span></h4>
 			</section>	
-			<section class="main-content">
-				<div class="grillita">
-					<div class="card" ng-repeat="producto in main.productos">
-                    <img class="card-img-top" src="data:{{producto.image.contentType}};base64,{{producto.image.data}}">
-                    <div class="card-block">
-                        <h4 class="card-title mt-3">{{producto.name}}</h4>
-                        <div class="meta">
-                            <a>{{producto.categories.toString()}}</a>
-                        </div>
-                        <div class="card-text">
-                            {{producto.description}}
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <small>{{producto.available}}</small>
-                        <button class="btn btn-secondary float-right btn-sm">Add to Cart</button>
-                    </div>
-                </div>
+			 <div class="container" style="margin-top:50px;">
 
-				</div>
-				
-			</section>			
+				<div id="myCarousel" class="myCarousel carousel slide">
+									<div class="carousel-inner">
+										<div class="active item">
+											<ul class="thumbnails">												
+												<li class="span3" ng-repeat="producto in main.productos ">
+													<div class="product-box">
+														<span class="sale_tag"></span>
+														<p><a href="product_detail.html"><img src="data:{{producto.image.contentType}};base64,{{producto.image.data}}" alt="" /></a></p>
+														<a href="./product_detail" class="title">{{producto.name}}</a><br/>
+														<a href="./products" class="category">{{producto.categories.toString()}}</a>
+														<p class="price"><span ng-bind="producto.price | currency"></span></p>
+														<% if (User) { %>
+															<a href="#" class="btn btn-info btn-lg" ng-click="main.addCart(producto)">
+          													<img src="bootstrap/img/car.png" /> Add Cart
+        												</a>
+														<% } %>
+														
+													</div>
+												</li>
+											</ul>
+										</div>
+										
+									</div>							
+								</div>
+						
+			</div>			
 			<section id="footer-bar">
 				<div class="row">
 					<div class="span3">
