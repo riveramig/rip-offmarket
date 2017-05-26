@@ -17,7 +17,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../dist/css/AdminLTE.css">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect.
@@ -65,7 +65,7 @@ desired effect
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>A</b>LT</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Admin</b>LTE</span>
+        <span class="logo-lg"><b>Admin</b>Timomarket</span>
       </a>
 
       <!-- Header Navbar -->
@@ -237,8 +237,9 @@ desired effect
       </section>
 
       <!-- Main content -->
-      <section class="content">
-        <div class="col-xs-12 col-md-6 bootstrap snippets" ng-repeat="producto in main.productos">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 col-md-6 bootstrap snippets" ng-repeat="producto in main.productos">
           <div class="product-content product-wrap clearfix">
             <div class="row">
               <div class="col-md-5 col-sm-12 col-xs-12">
@@ -278,8 +279,11 @@ desired effect
             </div>
           </div>
         </div>
+          </div>
+        </div>
+        
 
-      </section>
+      
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
@@ -302,7 +306,6 @@ desired effect
 
       <!-- Main content -->
       <section class="content">
-
         <form action="/admin/createProduct" method="post" enctype="multipart/form-data">
           <div class="form-group">
             <label for="exampleInputEmail1">Product Name</label>

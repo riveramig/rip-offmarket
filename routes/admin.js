@@ -152,7 +152,7 @@ passport.serializeUser(function(user,done){
     });
 
     router.post('/dashboard', 
-        passport.authenticate('local',{successRedirect:'/admin',failureRedirect:'/dashboard', failureFlash:true}),
+        passport.authenticate('local',{successRedirect:'/admin',failureRedirect:'/admin/dashboard', failureFlash:true}),
         function(req,res){
         res.redirect('/');
     });

@@ -45,7 +45,8 @@
 
 	router.get('/checkout',function(req,res){
 		var usuario=undefined;
-		if (req.user.local.name != undefined) {
+		if(req.user!= undefined){
+			if (req.user.local.name != undefined) {
 			usuario=req.user.local.name;
 		} else if (req.user.facebook.name != undefined) {
 			usuario=req.user.facebook.name;
@@ -55,6 +56,8 @@
 			usuario=req.user.google.name;
 		}
 		console.log(usuario);
+		}
+		
 		
 	  res.render('checkout', { title: 'Tienda Autenticada el Usuarios es:', User: usuario });
 	});
