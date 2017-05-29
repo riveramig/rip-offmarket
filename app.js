@@ -14,7 +14,7 @@ var flash= require('connect-flash');
 var LocalStrategy = require('passport-local'),Strategy;
 var mongo= require('mongodb');
 
-
+var usersChat = {};
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -122,9 +122,32 @@ app.use(function(err, req, res, next) {
 
 //////// CHAT //////// 
 io.sockets.on('connection',function(socket){
+
+  socket.on('new users',function(data){
+    console.log("New User");
+    
+      
+      socket.nickname= data;
+      usersChat[socket.nickname]= socket;
+      updateNicknames();
+      
+    
+  });
+
+  function updateNicknames(){
+    console.log("uPdate names");
+    io.sockets.emit('usernames', Object.keys(usersChat));
+  }
+
   socket.on('send message',function(data){
-    socket.emit('new message',data);
+    io.sockets.emit('new message',{msg:data, nick: socket.nickname});
    
+  });
+
+  socket.on('disconnect',function(data){
+    if(!socket.nickname) return;
+    delete usersChat[socket.nickname];
+    updateNicknames();
   });
 });
 

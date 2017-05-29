@@ -18,9 +18,9 @@
 		} else {
 			usuario=req.user.google.name;
 		}
-		console.log(usuario);
+		console.log(req.user);
 		
-	  res.render('index', { title: 'Tienda Autenticada el Usuarios es:', User: usuario });
+	  res.render('index', { title: 'Tienda Autenticada el Usuarios es:', User: usuario, user_id: req.user._id });
 	});
 
 	router.get('/cart', ensureAuthenticated,function(req, res, next){
@@ -36,7 +36,7 @@
 		}
 		console.log(usuario);
 		
-	  res.render('cart', { title: 'Tienda Autenticada el Usuarios es:', User: usuario });
+	  res.render('cart', { title: 'Tienda Autenticada el Usuarios es:', User: usuario, user_id: req.user._id });
 	});
 
 	router.get('/login',function(req,res){
@@ -59,11 +59,11 @@
 		}
 		
 		
-	  res.render('checkout', { title: 'Tienda Autenticada el Usuarios es:', User: usuario });
+	  res.render('checkout', { title: 'Tienda Autenticada el Usuarios es:', User: usuario, user_id: req.user._id });
 	});
 
 	router.get('/admin', ensureAuthenticatedAdmin,function(req, res, next) {
-		res.render('admin');
+		res.render('admin',{User: req.user.local.name, user_id: req.user._id});
 	});
 
 
