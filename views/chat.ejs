@@ -1,48 +1,60 @@
 <!-- DIV DEL CHAT-->
 				
-
+	<link rel="stylesheet" href="../users/bootstrap/css/chatStyle.css">
 				  <!-- Modal -->
-				  <div class="modal fade" id="myModal" role="dialog">
+				<div class="modal fade" id="myModal" role="dialog">
 				    <div class="modal-dialog">
-				    
-				      <!-- Modal content-->
-				      <div class="modal-content">
-				        <div class="modal-header">
-				          <button type="button" class="close" data-dismiss="modal">&times;</button>
-				          <h4 class="modal-title">Chat</h4>
-				        </div>
-				        <div class="modal-body">
-				          <div class="chat_window">
-				          	<ul class="messages">
-                    
-			                </ul>
-			                <div class="bottom_wrapper clearfix">
-			                    <div class="message_input_wrapper">
-			                        <input class="message_input" placeholder="Type your message here..." />
-			                    </div>
-			                    <div class="send_message"><div class="icon"></div>
-			                        <div class="text">Send</div>
-			                    </div>
-			                </div>
+        				<div class="modal-content">
+            				<div class="modal-header">
+                				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                				<h4 class="modal-title">Chat</h4>
+            				</div>
+            				<div class="modal-body" id="chat">
+				                
+            				</div>
+            				<div class="modal-footer">
+            				<form id="formularioChat">
+            					
+  							    <input type="text" class="form-control" id="usr">	
+				                <input type="submit"></input>
+				            </form>
+            				</div>
+       					 </div>
+    				</div>
+				</div>
+  <!-- DIV DEL CHAT-->
+<script type="text/javascript" src="../users/bootstrap/js/jquery.min.js"></script>
+<script type="text/javascript" src="../users/bootstrap/js/socket.io.js"></script>	
 
-				          </div>
-				        </div>
-				        <div class="modal-footer">
-				        	<div class="form-group">
-							  <input type="text" placeholder="Escribe aqui..." class="form-control" id="usr">
-							  
-							</div>
-				         	<button type="button" class="btn btn-primary">Enviar</button>
-				        </div>
-				      </div>
-				      
-				    </div>
-				  </div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var socket= io.connect();
+		var $messageForm= $('#formularioChat');
+		var $messageBox= $('#usr');
+		var $chat= $('#chat');
+		
+		$messageForm.submit(function(e){
+			
+			e.preventDefault();
+			socket.emit('send message', $messageBox.val());
+			
+			$chat.append(" <div class='talk-bubble2 tri-right btm-right'>"+
+								  "<div class='talktext2'>"+
+								    "<p>"+$messageBox.val()+"</p>"+
+								  "</div>"+
+								"</div>");
+			
+			$messageBox.val('');
+		});
 
-				  <style type="text/css">
-				  	#usr{
-				  		width: 90%;
-				  	}
-				  	
-				  </style>
-			    <!-- DIV DEL CHAT-->
+		socket.on('new message',function(data){
+			$chat.append("<div class='talk-bubble tri-right left-top'>"+
+								  "<div class='talktext'>"+
+								    "<p >"+data+"</p>"+
+								  "</div>"+
+								"</div>");
+			//$chat.append(data+"<br>");
+		});
+	});
+</script>			
+			  

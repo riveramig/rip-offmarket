@@ -15,11 +15,14 @@ var LocalStrategy = require('passport-local'),Strategy;
 var mongo= require('mongodb');
 
 
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var admin = require('./routes/admin');
 
-var app = express();
+var app = express(),
+   serv = app.listen(config.port),
+   io = require('socket.io').listen(serv);
 
 mongoose.connect(config.database, function(err){
 	if(err){
@@ -31,8 +34,7 @@ mongoose.connect(config.database, function(err){
 
 
 
-
-app.listen(config.port);
+ 
 console.log('listening on port: '+config.port);
 
 // view engine setup
@@ -116,5 +118,16 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+//////// CHAT //////// 
+io.sockets.on('connection',function(socket){
+  socket.on('send message',function(data){
+    socket.emit('new message',data);
+   
+  });
+});
+
+
 
 module.exports = app;
