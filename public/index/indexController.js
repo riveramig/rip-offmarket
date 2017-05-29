@@ -16,6 +16,9 @@ angular.module('Index',['Factory'])
 			cartService.remove(p);
 			$window.location.reload();
 		}
+		self.saveCart=function(){
+			cartService.save();
+		}
 	}])
 	.factory('productService',['$http',function($http){
 		var data=new Array();

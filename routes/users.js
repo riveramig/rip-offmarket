@@ -9,6 +9,8 @@
     var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
     var configAuth = require('../config/auth');
     var Purchase = require('../models/purchase');
+    var Product = require('../models/product');
+    var user;
     /* GET users listing. */
     
 
@@ -309,6 +311,7 @@
     router.post('/login', 
         passport.authenticate('local',{successRedirect:'/users',failureRedirect:'/login', failureFlash:true}),
         function(req,res){
+            user=req.user;
         res.redirect('/');
     });
 
@@ -375,25 +378,45 @@ router.post('/login',function(req,res){
 });
 
 router.post('/purchase',function(req,res){
-    owner=res.user;
-    
-    var products = req.body.products;
-    var date =new Date();
-    var price = 0;
-    products.forEach(function(pro){
-        price=price+pro.price;
-    });
+    if(req.user!=undefined){
+        owner=req.user.local;
+        console.log(req.body.data);
+        var carrito=req.body.data.carrito;
+        var carro=new Purchase();
+        carro.date=new Date;
+        carro.products=carrito;
+        carro.owner=owner.username;
+        carro.save(function(err){
+        if(err) throw err;
+            res.redirect("/");
+        });
+    }else{
+        res.json({message:'No autenticado :v'});
+    }
+});
 
-    var purchase = new Purchase({
-        date : date,
-        products : products,
-        price : price,
-        owner :  owner
-    });
+router.get('/getPurchases',function(req,res){
+    if(req.user!=undefined){ 
+        owner=req.user.local;
+        console.log(owner);
+        Purchase.findOne({owner:owner.username},'-_id products').lean().exec(function(err,carro){
+            if(!carro){
+                res.json({empty:true});
+            }else{
+                res.json(carro);
+            }
+        });
+    }else{
+        res.json({message:'no autenticado :v'});
+    }
+});
 
-    purchase.save(function(err){
-        if(err) console.log(err);
-        res.json({message: 'Purchase confirmed'});
+router.post('/getPbyId',function(req,res){
+    var id=req.body.data.id;
+    Product.findOne({_id:id},function(err,p){
+        if(p){
+            res.json(p);
+        }
     });
 });
 

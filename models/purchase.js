@@ -5,9 +5,8 @@ var Schema = mongoose.Schema;
 
 var purchaseSchema = new Schema({
 	date: Date,
-	products: [{type:Schema.Types.ObjectId,ref:'Product'}],
-	price: Number,
-	owner: {type:Schema.Types.ObjectId, ref:'User'}
+	products: [{type:String}],
+	owner: {type:String, required:true}
 });
 
 module.exports=mongoose.model('Purchase',purchaseSchema);
