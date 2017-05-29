@@ -57,9 +57,7 @@
 		}
 		console.log(usuario);
 		}
-		
-		
-	  res.render('checkout', { title: 'Tienda Autenticada el Usuarios es:', User: usuario, user_id: req.user._id });
+	  res.render('checkout', { title: 'Tienda Autenticada el Usuarios es:', User: usuario});
 	});
 
 	router.get('/admin', ensureAuthenticatedAdmin,function(req, res, next) {

@@ -11,7 +11,7 @@
                 				<h4 class="modal-title">Chat</h4>
                 				<% if (User) { %>
 				 					<p id="usuarioName"><%= User %></p>
-				 					<div id="usuarioId" style="display:none;"><%= user_id %></div>
+				 					
 				  				<% } %>
             				</div>
             				<div class="modal-body" id="chat">
@@ -38,7 +38,7 @@
 		var $messageBox= $('#usr');
 		var $chat= $('#chat');
 		var mostrar= true;
-		var usuario={id:$('#usuarioId').html(),
+		var usuario={
 					nombre:$('#usuarioName').html()
 		};
 
